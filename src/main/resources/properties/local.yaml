@@ -1,0 +1,3 @@
+app:
+  name: "ciena-cmas-ebs-tca-accounts-sapi"
+  version: "1.0.0"

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="inputrequest" format="json">
+      <types:shape format="weave" example="examples/apiinput.json"><![CDATA[%dw 2.0
+
+type inputrequest = {|
+  pCreatedByModule: String, 
+  pSfdcId: String, 
+  pTransactionType: String, 
+  pCustomerName: String, 
+  pCustAccountDescription: String, 
+  pCustomerAccountId: Number {"typeId": "int"}, 
+  pCustomerPartyId: Number {"typeId": "int"}, 
+  pSalesCategory: String, 
+  pMarketSegmentCode: String, 
+  pAmPersonId: String, 
+  pComMgrPersonId: String, 
+  pComSrvMgrPersonId: String, 
+  pDpPrimePersonId: String, 
+  pDunsNumber: Number {"typeId": "int"}, 
+  pPsaPartner: Null, 
+  pSalesHubCode: String, 
+  pSuperRegionCode: String, 
+  pSalesRegionCode: String, 
+  pIdentifyingAddressFlag: String, 
+  pLocationCountryCode: String, 
+  pLocationAddress1: String, 
+  pLocationAddress2: String, 
+  pLocationAddress3: String, 
+  pLocationAddress4: String, 
+  pLocationCity: String, 
+  pLocationPostapCode: String, 
+  pLocationState: String, 
+  pLocationProvince: String, 
+  pLocationCounty: String, 
+  pLocationGeocode: String, 
+  pCmasPartnerType: String, 
+  pAttribute1: Null, 
+  pAttribute2: Null, 
+  pAttribute3: Null, 
+  pAttribute4: Null, 
+  pAttribute5: Null, 
+  pAttribute6: Null, 
+  pAttribute7: Null, 
+  pAttribute8: Null, 
+  pAttribute9: Null, 
+  pAttribute10: Null, 
+  pAttribute11: Null, 
+  pAttribute12: Null, 
+  pAttribute13: Null, 
+  pAttribute14: Null, 
+  pAttribute15: Null, 
+  pAttribute16: Null, 
+  pAttribute17: Null, 
+  pAttribute18: Null, 
+  pAttribute19: Null, 
+  pAttribute20: Null
+|} {"example": "{\\\"pCreatedByModule\\\":\\\"hz_cpu\\\",\\\"pSfdcId\\\":\\\"A-12345\\\",\\\"pTransactionType\\\":\\\"insert\\\",\\\"pCustomerName\\\":\\\"ABC Corp\\\",\\\"pCustAccountDescription\\\":\\\"test desc\\\",\\\"pCustomerAccountId\\\":123456,\\\"pCustomerPartyId\\\":123456,\\\"pSalesCategory\\\":\\\"Direct\\\",\\\"pMarketSegmentCode\\\":\\\"webscale\\\",\\\"pAmPersonId\\\":\\\"26537\\\",\\\"pComMgrPersonId\\\":\\\"11727\\\",\\\"pComSrvMgrPersonId\\\":\\\"10376\\\",\\\"pDpPrimePersonId\\\":\\\"268965760\\\",\\\"pDunsNumber\\\":268965760,\\\"pPsaPartner\\\":null,\\\"pSalesHubCode\\\":\\\"EMEAGCNAMZN\\\",\\\"pSuperRegionCode\\\":\\\"APAC\\\",\\\"pSalesRegionCode\\\":\\\"majors\\\",\\\"pIdentifyingAddressFlag\\\":\\\"addressflag\\\",\\\"pLocationCountryCode\\\":\\\"lcoationcountrycode\\\",\\\"pLocationAddress1\\\":\\\"LocationAddress1\\\",\\\"pLocationAddress2\\\":\\\"LocationAddress2\\\",\\\"pLocationAddress3\\\":\\\"LocationAddress3\\\",\\\"pLocationAddress4\\\":\\\"LocationAddress4\\\",\\\"pLocationCity\\\":\\\"LocationCity\\\",\\\"pLocationPostapCode\\\":\\\"LocationPostapCode\\\",\\\"pLocationState\\\":\\\"LocationState\\\",\\\"pLocationProvince\\\":\\\"LocationProvince\\\",\\\"pLocationCounty\\\":\\\"LocationCounty\\\",\\\"pLocationGeocode\\\":\\\"LocationGeocode\\\",\\\"pCmasPartnerType\\\":\\\"CmasPartnerType\\\",\\\"pAttribute1\\\":null,\\\"pAttribute2\\\":null,\\\"pAttribute3\\\":null,\\\"pAttribute4\\\":null,\\\"pAttribute5\\\":null,\\\"pAttribute6\\\":null,\\\"pAttribute7\\\":null,\\\"pAttribute8\\\":null,\\\"pAttribute9\\\":null,\\\"pAttribute10\\\":null,\\\"pAttribute11\\\":null,\\\"pAttribute12\\\":null,\\\"pAttribute13\\\":null,\\\"pAttribute14\\\":null,\\\"pAttribute15\\\":null,\\\"pAttribute16\\\":null,\\\"pAttribute17\\\":null,\\\"pAttribute18\\\":null,\\\"pAttribute19\\\":null,\\\"pAttribute20\\\":null}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="outputresponse" format="json">
+      <types:shape format="weave" example="examples/APIParam.json"><![CDATA[%dw 2.0
+
+type outputresponse = {|
+  p_created_by_module: String, 
+  p_sfdc_id: String, 
+  p_transaction_type: String, 
+  p_customer_name: String, 
+  p_cust_account_description: String, 
+  p_customer_account_id: String, 
+  p_customer_party_id: String, 
+  p_sales_category: String, 
+  p_Market_segment_code: String, 
+  p_AM_person_id: String, 
+  p_Com_mgr_person_id: String, 
+  p_Com_srv_mgr_person_id: String, 
+  p_dp_prime_person_id: String, 
+  p_DUNS_number: String, 
+  p_PSA_Partner: String, 
+  p_Sales_hub_code: String, 
+  p_Super_region_code: String, 
+  p_Sales_region_code: String, 
+  p_identifying_address_flag: String, 
+  p_location_country_code: String, 
+  p_location_address1: String, 
+  p_location_address2: String, 
+  p_location_address3: String, 
+  p_location_address4: String, 
+  p_location_city: String, 
+  p_location_postap_code: String, 
+  p_location_state: String, 
+  p_location_province: String, 
+  p_location_county: String, 
+  p_location_geocode: String, 
+  P_CMAS_PARTNER_TYPE: String, 
+  p_attribute1: String, 
+  p_attribute2: String, 
+  p_attribute3: String, 
+  p_attribute4: String, 
+  p_attribute5: String, 
+  p_attribute6: String, 
+  p_attribute7: String, 
+  p_attribute8: String, 
+  p_attribute9: String, 
+  p_attribute10: String, 
+  p_attribute11: String, 
+  p_attribute12: String, 
+  p_attribute13: String, 
+  p_attribute14: String, 
+  p_attribute15: String, 
+  p_attribute16: String, 
+  p_attribute17: String, 
+  p_attribute18: String, 
+  p_attribute19: String, 
+  p_attribute20: String
+|} {"example": "{\\\"p_created_by_module\\\":\\\"\\\",\\\"p_sfdc_id\\\":\\\"\\\",\\\"p_transaction_type\\\":\\\"\\\",\\\"p_customer_name\\\":\\\"\\\",\\\"p_cust_account_description\\\":\\\"\\\",\\\"p_customer_account_id\\\":\\\"\\\",\\\"p_customer_party_id\\\":\\\"\\\",\\\"p_sales_category\\\":\\\"\\\",\\\"p_Market_segment_code\\\":\\\"\\\",\\\"p_AM_person_id\\\":\\\"\\\",\\\"p_Com_mgr_person_id\\\":\\\"\\\",\\\"p_Com_srv_mgr_person_id\\\":\\\"\\\",\\\"p_dp_prime_person_id\\\":\\\"\\\",\\\"p_DUNS_number\\\":\\\"\\\",\\\"p_PSA_Partner\\\":\\\"\\\",\\\"p_Sales_hub_code\\\":\\\"\\\",\\\"p_Super_region_code\\\":\\\"\\\",\\\"p_Sales_region_code\\\":\\\"\\\",\\\"p_identifying_address_flag\\\":\\\"\\\",\\\"p_location_country_code\\\":\\\"\\\",\\\"p_location_address1\\\":\\\"\\\",\\\"p_location_address2\\\":\\\"\\\",\\\"p_location_address3\\\":\\\"\\\",\\\"p_location_address4\\\":\\\"\\\",\\\"p_location_city\\\":\\\"\\\",\\\"p_location_postap_code\\\":\\\"\\\",\\\"p_location_state\\\":\\\"\\\",\\\"p_location_province\\\":\\\"\\\",\\\"p_location_county\\\":\\\"\\\",\\\"p_location_geocode\\\":\\\"\\\",\\\"P_CMAS_PARTNER_TYPE\\\":\\\"\\\",\\\"p_attribute1\\\":\\\"\\\",\\\"p_attribute2\\\":\\\"\\\",\\\"p_attribute3\\\":\\\"\\\",\\\"p_attribute4\\\":\\\"\\\",\\\"p_attribute5\\\":\\\"\\\",\\\"p_attribute6\\\":\\\"\\\",\\\"p_attribute7\\\":\\\"\\\",\\\"p_attribute8\\\":\\\"\\\",\\\"p_attribute9\\\":\\\"\\\",\\\"p_attribute10\\\":\\\"\\\",\\\"p_attribute11\\\":\\\"\\\",\\\"p_attribute12\\\":\\\"\\\",\\\"p_attribute13\\\":\\\"\\\",\\\"p_attribute14\\\":\\\"\\\",\\\"p_attribute15\\\":\\\"\\\",\\\"p_attribute16\\\":\\\"\\\",\\\"p_attribute17\\\":\\\"\\\",\\\"p_attribute18\\\":\\\"\\\",\\\"p_attribute19\\\":\\\"\\\",\\\"p_attribute20\\\":\\\"\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+</types:mule>

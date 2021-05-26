@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="fedccf3b-0205-4ea8-832b-c371b75e9344" file="properties/${env}.yaml" />
+	<global-property doc:name="Global Property: mule.securekey" doc:id="f37115b6-abdd-42c2-aff0-952f24dd38ed" name="secure.key" value="ujy1xYb8uDLZlMxtLufy" />
+    <global-property doc:name="Global Property: mule.env" doc:id="82c28f1b-797f-49c9-a158-15be94e2b536" name="env" value="sit" />
+	<json-logger:config name="JSON_Logger_Config" doc:name="JSON Logger Config" doc:id="25050da2-f253-49bc-81dd-efb659e5c6a6" applicationName="${app.name}" applicationVersion="${app.version}" environment="${env}" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f0a4c4dc-0354-4034-89d2-def14f98df74" file="properties/${env}-secure.yaml" key="${secure.key}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="c0d6beb5-59c0-444a-b80f-f731a5d0b66b" >
+		<db:oracle-connection host="${secure::database.host}" password="${secure::database.password}" serviceName="${secure::database.servicename}" user="${secure::database.user}" port="${secure::database.port}">
+			<db:column-types >
+				<db:column-type id="2003" typeName="SFDC_CUSTOMER_TBL_TYPE" />
+				<db:column-type id="2002" typeName="SFDC_CUSTOMER_REC_TYPE" />
+			</db:column-types>
+		</db:oracle-connection>
+	</db:config>
+	
+</mule>

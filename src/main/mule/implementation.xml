@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow doc:id="42284936-448c-4fbc-8f22-b1e4da77b9b8" name="implemenation-upsert-ebs-api-call-flow">
+		<json-logger:logger doc:name="Logger" doc:id="37a5dc29-6440-446b-9327-33595904384b" config-ref="JSON_Logger_Config" message="START ---  sending request to Oracle ebs system" tracePoint="BEFORE_REQUEST"/>
+		<ee:transform doc:name="Transform Message" doc:id="71d5b935-d362-4d48-99fe-84d608e2293c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+// This trasform message is to align fiewld as per oracle ESB SP
+{
+	'p_created_by_module': payload.pCreatedByModule,
+	'p_sfdc_id': payload.pSfdcId,
+	'p_transaction_type': payload.pTransactionType,
+	'p_customer_name': payload.pCustomerName,
+	'p_cust_account_description': payload.pCustAccountDescription,
+	'p_customer_account_id': payload.pCustomerAccountId,
+	'p_customer_party_id': payload.pCustomerPartyId,
+	'p_sales_category': payload.pSalesCategory,
+	'p_Market_segment_code': payload.pMarketSegmentCode,
+	'p_AM_person_id': payload.pAmPersonId,
+	'p_Com_mgr_person_id': payload.pComMgrPersonId,
+	'p_Com_srv_mgr_person_id': payload.pComSrvMgrPersonId,
+	'p_dp_prime_person_id': payload.pDpPrimePersonId,
+	'p_Duns_Number': payload.pDunsNumber,
+	'p_PSA_Partner': payload.pPsaPartner,
+	'p_Sales_hub_code': payload.pSalesHubCode,
+	'p_Super_region_code': payload.pSuperRegionCode,
+	'p_Sales_region_code': payload.pSalesRegionCode,
+	'p_identifying_address_flag': payload.pIdentifyingAddressFlag,
+	'p_location_country_code': payload.pLocationCountryCode,
+	'p_location_address1': payload.pLocationAddress1,
+	'p_location_address2': payload.pLocationAddress2,
+	'p_location_address3': payload.pLocationAddress3,
+	'p_location_address4': payload.pLocationAddress4,
+	'p_location_city': payload.pLocationCity,
+	'p_location_postap_code': payload.pLocationPostapCode,
+	'p_location_state': payload.pLocationState,
+	'p_location_province': payload.pLocationProvince,
+	'p_location_county': payload.pLocationCounty,
+	'p_location_geocode': payload.pLocationGeocode,
+	'p_CMAS_PARTNER_TYPE': payload.pCmasPartner,
+	'p_attribute1': payload.pAttribute1,
+	'p_attribute2': payload.pAttribute2,
+	'p_attribute3': payload.pAttribute3,
+	'p_attribute4': payload.pAttribute4,
+	'p_attribute5': payload.pAttribute5,
+	'p_attribute6': payload.pAttribute6,
+	'p_attribute7': payload.pAttribute7,
+	'p_attribute8': payload.pAttribute8,
+	'p_attribute9': payload.pAttribute9,
+	'p_attribute10': payload.pAttribute10,
+	'p_attribute11': payload.pAttribute11,
+	'p_attribute12': payload.pAttribute12,
+	'p_attribute13': payload.pAttribute13,
+	'p_attribute14': payload.pAttribute14,
+	'p_attribute15': payload.pAttribute15,
+	'p_attribute16': payload.pAttribute16,
+	'p_attribute17': payload.pAttribute17,
+	'p_attribute18': payload.pAttribute18,
+	'p_attribute19': payload.pAttribute19,
+	'p_attribute20': payload.pAttribute20
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="3217743c-12a3-4172-bb00-f71b5a9907de" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+var inputValue = (payload pluck  $)
+var aStruct = Db::createStruct("Database_Config","SFDC_CUSTOMER_REC_TYPE",inputValue)
+---
+Db::createArray("Database_Config","SFDC_CUSTOMER_TBL_TYPE", [aStruct])
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:stored-procedure doc:name="ebs-api-call" doc:id="713e9cd3-9ef6-4d98-80e3-004e6734b27f" config-ref="Database_Config">
+			<db:sql ><![CDATA[{
+call cie_cmas_sfdc_customer_pub.customer_creation_process( :p_customer_rec
+, :x_party_id
+, :x_cust_acct_id
+, :x_return_status
+, :x_msg_data
+, :x_stg_step_no
+)
+}]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	p_customer_rec: payload
+}]]]></db:input-parameters>
+			<db:output-parameters >
+				<db:output-parameter key="x_party_id" type="NUMERIC" />
+				<db:output-parameter key="x_cust_acct_id" type="NUMERIC" />
+				<db:output-parameter key="x_return_status" type="VARCHAR" />
+				<db:output-parameter key="x_msg_data" type="VARCHAR" />
+				<db:output-parameter key="x_stg_step_no" type="VARCHAR" />
+			</db:output-parameters>
+		</db:stored-procedure>
+		<ee:transform doc:name="Transform Message" doc:id="fccb7ad9-834d-455f-8587-6b4961715933">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"partyID": payload.x_party_id,
+	"custAcctID": payload.x_cust_acct_id,
+	"returnStatus": payload.x_return_status,
+	"msgData": payload.x_msg_data,
+	"stgStepNo": payload.x_stg_step_no
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="Logger" doc:id="6887ee98-932a-4af0-8172-5e344ead58d3" config-ref="JSON_Logger_Config" message="END ---  sending request to Oracle ebs system" tracePoint="AFTER_REQUEST"/>
+	</flow>
+</mule>

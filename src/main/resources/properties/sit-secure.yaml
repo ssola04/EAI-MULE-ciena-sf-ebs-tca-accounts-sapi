@@ -1,0 +1,7 @@
+database:
+   host: "orw1xexadata-gpkiy1"
+   port: "1558"
+   user: "Mulesoftuser"
+   password: "xLEbExb233BEste_felsmbe6LSEKMB"
+   servicename: "ebzd"
+#used SIT key here to encrypt the password
